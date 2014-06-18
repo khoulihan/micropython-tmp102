@@ -14,7 +14,7 @@ def _extend_class():
         return config
     def _get_shutdown(self):
         current_config = self._get_config()
-        return current_config[0] & SHUTDOWN_BIT
+        return (current_config[0] & SHUTDOWN_BIT) == SHUTDOWN_BIT
     def _set_shutdown(self, val):
         self._set_config(
             self._apply_shutdown(
