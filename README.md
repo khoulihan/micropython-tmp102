@@ -10,7 +10,7 @@ License: MIT, see LICENSE for more details.
 Usage
 =====
 
-The main functionality of this module is contained in the Tmp102 class, which
+The main functionality of this package is contained in the Tmp102 class, which
 wraps an I2C object from the pyb module to configure and read from a tmp102 device
 at a specific address.
 
@@ -18,6 +18,7 @@ At it's most basic, the class can be can be initialized with an I2C bus object a
 an address, and then the temperature can be read periodically from the temperature
 property:
 
+    from tmp102 import Tmp102
     bus = I2C(1, I2C.MASTER)
     sensor = Tmp102(bus, 0x48)
     print(sensor.temperature)
@@ -30,8 +31,11 @@ Conversion Rate
 
 By default, the temperature will be updated at 4Hz. The rate of updates can be
 set to one of four frequencies by setting the conversion_rate property, or by
-passing a conversion_rate named argument to the constructor:
+passing a conversion_rate named argument to the constructor. The *conversionrate*
+module must be imported to enable this functionality:
     
+    from tmp102 import Tmp102
+    import tmp102.conversionrate
     sensor = Tmp102(
         bus,
         0x48,
@@ -53,8 +57,11 @@ Extended Mode
 By default, the temperature value is stored as 12 bits, for a maximum reading of
 128C. Extended mode uses 13 bits instead, allowing a reading up to 150C. Extended
 mode can be enabled by setting the extended_mode property or passing an extended_mode
-named argument to the constructor:
+named argument to the constructor. The *extendedmode* module must be imported to enable
+this functionality.
 
+    from tmp102 import Tmp102
+    import tmp102.extendedmode
     sensor = Tmp102(
         bus,
         0x48,
@@ -69,7 +76,8 @@ Shutdown and One-Shot Conversions
 When temperature readings are not required for an extended period, the device can
 be shut down to save power. Only the serial interface is kept awake to allow the
 device to be woken up again. The device can be shut down and awoken by setting the
-shutdown property appropriately:
+shutdown property appropriately. The *shutdown* module must be imported to enable
+this functionality.
 
     sensor.shutdown = True
     # sensor.temperature will not be updated again until the device is awoken.
@@ -84,7 +92,8 @@ If the device is shut down and only a single reading is required, it is not
 necessary to toggle the shutdown and make the device fully active again in order
 to get a reading. A "one-shot" conversion can be initiated by calling the
 initiate_conversion method. The progress of the conversion can be monitored through
-the conversion_ready property.
+the conversion_ready property. The *oneshot* module must be imported to enable this
+functionality.
 
     sensor.initiate_conversion()
     while not sensor.conversion_ready:
@@ -115,6 +124,10 @@ supported by the device can all be set through properties of the object or
 arguments to the constructor, but their semantics are best described by the
 datasheet of the sensor: http://www.ti.com/lit/ds/symlink/tmp102.pdf
 
+The alert module must be imported to use any of these features.
+
+    from tmp102 import Tmp102
+    import tmp102.alert
     sensor = Tmp102(
         bus,
         0x48,
@@ -142,7 +155,7 @@ Temperature Scales/Units
 
 By default, all temperatures are in celsius. If another scale/unit is preferred,
 a convertor can be provided to the constructor. Fahrenheit and Kelvin convertor
-classes are included in this module.
+classes are included in the *convertors* module.
 
     sensor = Tmp102(
         bus, 
