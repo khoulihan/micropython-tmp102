@@ -4,6 +4,7 @@ micropython-tmp102
 Implements support for the Texas Instruments tmp102 temperature sensor.
 
 Copyright (c) 2014 by Kevin Houlihan
+
 License: MIT, see LICENSE for more details.
 
 
