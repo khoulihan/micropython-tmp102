@@ -31,7 +31,7 @@ def _extend_class():
         return (current_config[1] & ALERT_BIT) == ALERT_BIT
     Tmp102.alert = property(_alert)
 
-    def _apply_polarity(self, config, polarity_set):
+    def _apply_alert_polarity(self, config, polarity_set):
         config[0] = _set_bit_for_boolean(
             config[0],
             POLARITY_BIT,
@@ -43,12 +43,12 @@ def _extend_class():
         return (current_config[0] & POLARITY_BIT) == POLARITY_BIT
     def _set_polarity(self, val):
         self._set_config(
-            self._apply_polarity(
+            self._apply_alert_polarity(
                 bytearray(self._get_config()),
                 val
             )
         )
-    Tmp102._apply_polarity = _apply_polarity
+    Tmp102._apply_alert_polarity = _apply_alert_polarity
     Tmp102.alert_polarity = property(_get_polarity, _set_polarity)
 
     def _apply_thermostat_mode(self, config, mode_set):

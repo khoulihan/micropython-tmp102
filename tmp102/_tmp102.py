@@ -33,36 +33,9 @@ class Tmp102(object):
         if len(kwargs) > 0:
             # Apply the passed in settings
             config = bytearray(self._get_config())
-            if 'extended_mode' in kwargs:
-                config = self._apply_extended_mode(
-                    config,
-                    kwargs['extended_mode']
-                )
-            if 'shutdown' in kwargs:
-                config = self._apply_shutdown(
-                    config,
-                    kwargs['shutdown']
-                )
-            if 'conversion_rate' in kwargs:
-                config = self._apply_conversion_rate(
-                    config,
-                    kwargs['conversion_rate']
-                )
-            if 'alert_polarity' in kwargs:
-                config = self._apply_polarity(
-                    config,
-                    kwargs['alert_polarity']
-                )
-            if 'thermostat_mode' in kwargs:
-                config = self._apply_thermostat_mode(
-                    config,
-                    kwargs['thermostat_mode']
-                )
-            if 'fault_queue_length' in kwargs:
-                config = self._apply_fault_queue_length(
-                    config,
-                    kwargs['fault_queue_length']
-                )
+            for key, value in kwargs.items():
+                applyfunc = '_apply_{}'.format(key)
+                config = getattr(self, applyfunc)(config, value)
             self._set_config(config)
 
             if 'thermostat_high_temperature' in kwargs:
