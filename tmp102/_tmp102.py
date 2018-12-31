@@ -47,7 +47,10 @@ class Tmp102(object):
         if register != self._last_write_register:
             # Reads come from the last register written.
             self._write_register(register)
-        val = self.bus.recv(2, addr=self.address)
+        try:
+            val = self.bus.readfrom(self.address, 2)
+        except AttributeError:
+            val = self.bus.recv(2, addr=self.address)
         return val
 
     def _write_register(self, register, value=None):
@@ -56,7 +59,10 @@ class Tmp102(object):
         if value is not None:
             for val in value:
                 bvals.append(val)
-        self.bus.send(bvals, addr=self.address)
+        try:
+            self.bus.writeto(self.address, bvals)
+        except AttributeError:
+            self.bus.send(bvals, addr=self.address)
         self._last_write_register = register
 
     def _get_config(self):

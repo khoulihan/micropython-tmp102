@@ -12,15 +12,24 @@ Usage
 =====
 
 The main functionality of this package is contained in the Tmp102 class, which
-wraps an I2C object from the pyb module to configure and read from a tmp102 device
-at a specific address.
+wraps an I2C object from the pyb or machine modules to configure and read from a
+tmp102 device at a specific address.
 
 At it's most basic, the class can be can be initialized with an I2C bus object and
 an address, and then the temperature can be read periodically from the temperature
 property:
 
+    from pyb import I2C
     from tmp102 import Tmp102
     bus = I2C(1, I2C.MASTER)
+    sensor = Tmp102(bus, 0x48)
+    print(sensor.temperature)
+
+Or for the I2C class in the machine module:
+
+    from machine import I2C
+    from tmp102 import Tmp102
+    bus = I2C(1)
     sensor = Tmp102(bus, 0x48)
     print(sensor.temperature)
 
