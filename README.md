@@ -7,6 +7,7 @@ Copyright (c) 2014 by Kevin Houlihan
 
 License: MIT, see LICENSE for more details.
 
+**This repository has been [migrated to Codeberg](https://codeberg.org/khoulihan/micropython-tmp102).**
 
 Usage
 =====
